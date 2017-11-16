@@ -119,21 +119,21 @@ contract Sale {
     }
 
     // put some text in the contract
-    // BK Ok - Only newOwner can execute this
+    // BK Ok - Only owner can execute this
     function setNotice(string note) onlyOwner {
         // BK Ok
         notice = note;
     }
 
     // withdraw all of the Ether
-    // BK Ok - Only newOwner can execute this
+    // BK Ok - Only owner can execute this
     function withdraw() onlyOwner {
         // BK Ok
         msg.sender.transfer(this.balance);
     }
 
     // withdraw some of the Ether
-    // BK Ok - Only newOwner can execute this
+    // BK Ok - Only owner can execute this
     function withdrawSome(uint value) onlyOwner {
         // BK Ok
         require(value <= this.balance);
@@ -142,7 +142,7 @@ contract Sale {
     }
 
     // withdraw tokens to owner
-    // BK Ok - Only newOwner can execute this
+    // BK Ok - Only owner can execute this
     function withdrawToken(address token) onlyOwner {
         // BK Ok
         Token t = Token(token);
@@ -151,7 +151,7 @@ contract Sale {
     }
 
     // refund early/late tokens
-    // BK Ok - Only newOwner can execute this
+    // BK Ok - Only owner can execute this
     function refundToken(address token, address sender, uint amount) onlyOwner {
         // BK Ok
         Token t = Token(token);
