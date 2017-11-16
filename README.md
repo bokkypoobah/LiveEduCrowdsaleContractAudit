@@ -10,14 +10,14 @@ Status: To be commenced
 
 Deployed contracts on Mainnet:
 
-* Sale [0x2097175d0abb8258f2468E3487F8db776E29D076](https://etherscan.io/address/0x2097175d0abb8258f2468E3487F8db776E29D076#code)
-  [contracts/Sale.sol](contracts/Sale.sol)
-* Token [0x5b26C5D0772E5bbaC8b3182AE9a13f9BB2D03765](https://etherscan.io/address/0x5b26C5D0772E5bbaC8b3182AE9a13f9BB2D03765#code)
-  [contracts/Token.sol](contracts/Token.sol)
-* Controller [0xcbD1dC6D55F20C9b4639752544d7EEcF261aBBED](https://etherscan.io/address/0xcbD1dC6D55F20C9b4639752544d7EEcF261aBBED#code)
-  [contracts/Controller.sol](contracts/Controller.sol)
-* Ledger [0x3847922645c99eD954f597a1DB0BA258240014Ce](https://etherscan.io/address/0x3847922645c99eD954f597a1DB0BA258240014Ce#code)
-  [contracts/Ledger.sol](contracts/Ledger.sol)
+* Sale [0x2097175d0abb8258f2468E3487F8db776E29D076](https://etherscan.io/address/0x2097175d0abb8258f2468E3487F8db776E29D076#code) with source code
+  copied to [contracts/Sale.sol](contracts/Sale.sol), and deployed with Solidity v0.4.14+commit.c2215d46 and optimisation switched on
+* Token [0x5b26C5D0772E5bbaC8b3182AE9a13f9BB2D03765](https://etherscan.io/address/0x5b26C5D0772E5bbaC8b3182AE9a13f9BB2D03765#code) with source code
+  copied to [contracts/Token.sol](contracts/Token.sol), and deployed with Solidity v0.4.14+commit.c2215d46 and optimisation switched on
+* Controller [0xcbD1dC6D55F20C9b4639752544d7EEcF261aBBED](https://etherscan.io/address/0xcbD1dC6D55F20C9b4639752544d7EEcF261aBBED#code) with source code
+  copied to [contracts/Controller.sol](contracts/Controller.sol), and deployed with Solidity v0.4.14+commit.c2215d46 and optimisation switched on 
+* Ledger [0x3847922645c99eD954f597a1DB0BA258240014Ce](https://etherscan.io/address/0x3847922645c99eD954f597a1DB0BA258240014Ce#code) with source code
+  copied to [contracts/Ledger.sol](contracts/Ledger.sol), and deployed with Solidity  v0.4.14+commit.c2215d46 and optimisation switched on
 
 The source code for Token, Controller and Ledger deployed on Mainnet are exactly the same as each other.
 
@@ -45,9 +45,9 @@ The source code for Token, Controller and Ledger deployed on Mainnet are exactly
 
 ## Code Review
 
-* [ ] [code-review/Sale.md](code-review/Sale.md)
-  * [ ] contract Token
-  * [ ] contract Sale
+* [x] [code-review/Sale.md](code-review/Sale.md)
+  * [x] contract Token
+  * [x] contract Sale
 * [ ] [code-review/Token.md](code-review/Token.md)
   * [ ] contract SafeMath
   * [ ] contract Owned

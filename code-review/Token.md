@@ -8,6 +8,7 @@ Source file [../contracts/Token.sol](../contracts/Token.sol).
 
 ```javascript
 // Unattributed material copyright New Alchemy Limited, 2017. All rights reserved.
+// BK Ok - Was deployed with Solidity v0.4.14+commit.c2215d46 and optimisation switched on
 pragma solidity >=0.4.10;
 
 contract SafeMath {
