@@ -72,7 +72,9 @@ Note that:
   recommends the following behaviour that the *Token* contract does not implement:
   * `transfer(...)` and `transferFrom(...)` throws an error if there are insufficient tokens to transfer
   * `transferFrom(...)` throws an error if there are insufficient approved tokens to transfer
-  * 0 value transfers are valid transfers
+* **LOW IMPORTANCE** `Ledger.approve(...)` - the recently finalised [ERC20 token standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md)
+  recommends against the smart contract enforcing a change in a non-0 approval limit by first setting the approval limit to 0 before being
+  able to set the approval limit to a new non-0 amount
 
 <br />
 
@@ -89,7 +91,7 @@ Note that:
 * [x] [code-review/Sale.md](code-review/Sale.md)
   * [x] contract Token
   * [x] contract Sale
-* [ ] [code-review/Token.md](code-review/Token.md)
+* [x] [code-review/Token.md](code-review/Token.md)
   * [x] contract SafeMath
   * [x] contract Owned
   * [x] contract Pausable is Owned
@@ -97,6 +99,6 @@ Note that:
   * [x] contract IToken
   * [x] contract TokenReceivable is Owned
   * [x] contract EventDefinitions
-  * [ ] contract Token is Finalizable, TokenReceivable, SafeMath, EventDefinitions, Pausable
-  * [ ] contract Controller is Owned, Finalizable
-  * [ ] contract Ledger is Owned, SafeMath, Finalizable
+  * [x] contract Token is Finalizable, TokenReceivable, SafeMath, EventDefinitions, Pausable
+  * [x] contract Controller is Owned, Finalizable
+  * [x] contract Ledger is Owned, SafeMath, Finalizable
