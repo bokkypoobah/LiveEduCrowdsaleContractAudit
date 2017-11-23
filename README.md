@@ -1,6 +1,6 @@
 # LiveEdu Crowdsale Contract Audit
 
-Status: To be commenced
+Status: Work in progress
 
 ## Summary
 
@@ -75,6 +75,11 @@ Note that:
 * **LOW IMPORTANCE** `Ledger.approve(...)` - the recently finalised [ERC20 token standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md)
   recommends against the smart contract enforcing a change in a non-0 approval limit by first setting the approval limit to 0 before being
   able to set the approval limit to a new non-0 amount
+* **LOW IMPORTANCE** `Sale.init(...)` can be called as many times and at any time to change the start date, end date and cap for the crowdsale. Consider
+  adding the statement `require(start == 0);` at the start of this function to restrict `init(...)` to only being called once
+* **LOW IMPORTANCE** The *Sale* fallback `()` function implements the time limitation (end date) and the cap in some convoluted logic that permits one
+  last single contribution AFTER the end date that is not restricted by the specified cap in any way. Consider simplifying the the logic to restrict
+  contributions to the crowdsale period and the specified cap
 
 <br />
 
