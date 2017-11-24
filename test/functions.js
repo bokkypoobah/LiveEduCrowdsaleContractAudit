@@ -252,7 +252,7 @@ function printSaleContractDetails() {
     console.log("RESULT: sale.notice=" + contract.notice());
     console.log("RESULT: sale.start=" + contract.start() + " " + new Date(contract.start() * 1000).toUTCString());
     console.log("RESULT: sale.end=" + contract.end() + " " + new Date(contract.end() * 1000).toUTCString());
-    console.log("RESULT: sale.cap=" + contract.cap() + " " + contract.cap().shift(-18));
+    console.log("RESULT: sale.cap=" + contract.cap() + " " + contract.cap().shift(-18) + " ETH");
     console.log("RESULT: sale.live=" + contract.live());
 
     var latestBlock = eth.blockNumber;
@@ -290,49 +290,36 @@ function printSaleContractDetails() {
 var tokenFromBlock = 0;
 function printTokenContractDetails() {
   console.log("RESULT: tokenContractAddress=" + tokenContractAddress);
+  // console.log("RESULT: tokenContractAbi=" + JSON.stringify(tokenContractAbi));
   if (tokenContractAddress != null && tokenContractAbi != null) {
     var contract = eth.contract(tokenContractAbi).at(tokenContractAddress);
     var decimals = contract.decimals();
     console.log("RESULT: token.owner=" + contract.owner());
-    console.log("RESULT: token.newOwner=" + contract.newOwner());
+    // NOT public console.log("RESULT: token.newOwner=" + contract.newOwner());
+    console.log("RESULT: token.paused=" + contract.paused());
+    console.log("RESULT: token.finalized=" + contract.finalized());
     console.log("RESULT: token.symbol=" + contract.symbol());
     console.log("RESULT: token.name=" + contract.name());
     console.log("RESULT: token.decimals=" + decimals);
-    console.log("RESULT: token.decimalsFactor=" + contract.decimalsFactor());
+    console.log("RESULT: token.controller=" + contract.controller());
+    console.log("RESULT: token.motd=" + contract.motd());
     console.log("RESULT: token.totalSupply=" + contract.totalSupply().shift(-decimals));
-    console.log("RESULT: token.transferable=" + contract.transferable());
-    console.log("RESULT: token.mintable=" + contract.mintable());
-    console.log("RESULT: token.minter=" + contract.minter());
 
     var latestBlock = eth.blockNumber;
     var i;
 
-    var minterUpdatedEvents = contract.MinterUpdated({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
+    var motdEvents = contract.Motd({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
     i = 0;
-    minterUpdatedEvents.watch(function (error, result) {
-      console.log("RESULT: MinterUpdated " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    motdEvents.watch(function (error, result) {
+      console.log("RESULT: Motd " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
     });
-    minterUpdatedEvents.stopWatching();
-
-    var mintingDisabledEvents = contract.MintingDisabled({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
-    i = 0;
-    mintingDisabledEvents.watch(function (error, result) {
-      console.log("RESULT: MintingDisabled " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
-    });
-    mintingDisabledEvents.stopWatching();
-
-    var minterUpdatedEvents = contract.MinterUpdated({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
-    i = 0;
-    minterUpdatedEvents.watch(function (error, result) {
-      console.log("RESULT: MinterUpdated " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
-    });
-    minterUpdatedEvents.stopWatching();
+    motdEvents.stopWatching();
 
     var approvalEvents = contract.Approval({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
     i = 0;
     approvalEvents.watch(function (error, result) {
       console.log("RESULT: Approval " + i++ + " #" + result.blockNumber + " owner=" + result.args.owner +
-        " spender=" + result.args.spender + " tokens=" + result.args.tokens.shift(-decimals));
+        " spender=" + result.args.spender + " value=" + result.args.value.shift(-decimals));
     });
     approvalEvents.stopWatching();
 
@@ -340,10 +327,66 @@ function printTokenContractDetails() {
     i = 0;
     transferEvents.watch(function (error, result) {
       console.log("RESULT: Transfer " + i++ + " #" + result.blockNumber + ": from=" + result.args.from + " to=" + result.args.to +
-        " tokens=" + result.args.tokens.shift(-decimals));
+        " value=" + result.args.value.shift(-decimals));
     });
     transferEvents.stopWatching();
 
     tokenFromBlock = latestBlock + 1;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Controller Contract
+// -----------------------------------------------------------------------------
+var controllerContractAddress = null;
+var controllerContractAbi = null;
+
+function addControllerContractAddressAndAbi(address, controllerAbi) {
+  controllerContractAddress = address;
+  controllerContractAbi = controllerAbi;
+}
+
+//-----------------------------------------------------------------------------
+// Controller Contract
+//-----------------------------------------------------------------------------
+function printControllerContractDetails() {
+  console.log("RESULT: controllerContractAddress=" + controllerContractAddress);
+  // console.log("RESULT: controllerContractAbi=" + JSON.stringify(controllerContractAbi));
+  if (controllerContractAddress != null && controllerContractAbi != null) {
+    var contract = eth.contract(controllerContractAbi).at(controllerContractAddress);
+    console.log("RESULT: controller.owner=" + contract.owner());
+    console.log("RESULT: controller.finalized=" + contract.finalized());
+    console.log("RESULT: controller.ledger=" + contract.ledger());
+    console.log("RESULT: controller.token=" + contract.token());
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Ledger Contract
+// -----------------------------------------------------------------------------
+var ledgerContractAddress = null;
+var ledgerContractAbi = null;
+
+function addLedgerContractAddressAndAbi(address, ledgerAbi) {
+  ledgerContractAddress = address;
+  ledgerContractAbi = ledgerAbi;
+}
+
+//-----------------------------------------------------------------------------
+// Ledger Contract
+//-----------------------------------------------------------------------------
+function printLedgerContractDetails() {
+  console.log("RESULT: ledgerContractAddress=" + ledgerContractAddress);
+  // console.log("RESULT: ledgerContractAbi=" + JSON.stringify(ledgerContractAbi));
+  if (ledgerContractAddress != null && ledgerContractAbi != null) {
+    var contract = eth.contract(ledgerContractAbi).at(ledgerContractAddress);
+    console.log("RESULT: ledger.owner=" + contract.owner());
+    console.log("RESULT: ledger.finalized=" + contract.finalized());
+    console.log("RESULT: ledger.controller=" + contract.controller());
+    console.log("RESULT: ledger.totalSupply=" + contract.totalSupply());
+    console.log("RESULT: ledger.mintingNonce=" + contract.mintingNonce());
+    console.log("RESULT: ledger.mintingStopped=" + contract.mintingStopped());
   }
 }

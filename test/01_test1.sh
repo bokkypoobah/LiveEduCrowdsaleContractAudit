@@ -195,18 +195,20 @@ waitUntil("End", $ENDTIME, 0);
 
 
 // -----------------------------------------------------------------------------
-var contribute3Message = "Contribute After Sale Start";
+var contribute3Message = "Contribute After Sale Ended";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + contribute3Message);
 var contribute3_1Tx = eth.sendTransaction({from: account3, to: saleAddress, value: web3.toWei(10000, "ether"), gas: 500000, gasPrice: defaultGasPrice});
+while (txpool.status.pending > 0) {
+}
 var contribute3_2Tx = eth.sendTransaction({from: account4, to: saleAddress, value: web3.toWei(10000, "ether"), gas: 500000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {
 }
 printTxData("contribute3_1Tx", contribute3_1Tx);
 printTxData("contribute3_2Tx", contribute3_2Tx);
 printBalances();
-failIfTxStatusError(contribute3_1Tx, contribute3Message + " - ac3 10,000 ETH");
-failIfTxStatusError(contribute3_2Tx, contribute3Message + " - ac4 10,000 ETH");
+failIfTxStatusError(contribute3_1Tx, contribute3Message + " - ac3 10,000 ETH - NOTE that this contribution should not have been accepted as it is over the cap and after the end");
+passIfTxStatusError(contribute3_2Tx, contribute3Message + " - ac4 10,000 ETH - Expecting failure");
 printSaleContractDetails();
 console.log("RESULT: ");
 
@@ -223,109 +225,6 @@ printBalances();
 failIfTxStatusError(withdraw1Tx, withdrawMessage);
 printSaleContractDetails();
 console.log("RESULT: ");
-
-
-exit;
-
-
-// -----------------------------------------------------------------------------
-var registerAppsMessage = "Register App Accounts";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + registerAppsMessage);
-var registerApps1Tx = registry.addApp("Bevery", beveryFeeAccount, {from: beveryAppAccount, gas: 500000, gasPrice: defaultGasPrice});
-var registerApps2Tx = registry.addApp("Mevery", meveryFeeAccount, {from: meveryAppAccount, gas: 500000, gasPrice: defaultGasPrice});
-var registerApps3Tx = registry.addApp("Zevery", zeveryFeeAccount, {from: zeveryAppAccount, gas: 500000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printTxData("registerApps1Tx", registerApps1Tx);
-printTxData("registerApps2Tx", registerApps2Tx);
-printTxData("registerApps3Tx", registerApps3Tx);
-printBalances();
-failIfTxStatusError(registerApps1Tx, registerAppsMessage + " - Bevery");
-failIfTxStatusError(registerApps2Tx, registerAppsMessage + " - Mevery");
-failIfTxStatusError(registerApps3Tx, registerAppsMessage + " - Zevery");
-printRegistryContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var registerBrandsMessage = "Register Brand Accounts";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + registerBrandsMessage);
-var registerBrands1Tx = registry.addBrand(beveryBrand1Account, "Bevery Brand 1", {from: beveryAppAccount, gas: 500000, gasPrice: defaultGasPrice});
-var registerBrands2Tx = registry.addBrand(beveryBrand2Account, "Bevery Brand 2", {from: beveryAppAccount, gas: 500000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printTxData("registerBrands1Tx", registerBrands1Tx);
-printTxData("registerBrands2Tx", registerBrands2Tx);
-printBalances();
-failIfTxStatusError(registerBrands1Tx, registerBrandsMessage + " - Bevery Brand 1");
-failIfTxStatusError(registerBrands2Tx, registerBrandsMessage + " - Bevery Brand 2");
-printRegistryContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var registerProductsMessage = "Register Brand Accounts";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + registerProductsMessage);
-var registerProducts1Tx = registry.addProduct(beveryBrand1ProductAAccount, "Bevery Brand 1 Product A", "eeeeks", 2016, "AU", {from: beveryBrand1Account, gas: 500000, gasPrice: defaultGasPrice});
-var registerProducts2Tx = registry.addProduct(beveryBrand1ProductBAccount, "Bevery Brand 1 Product B", "yiikes", 2017, "AU", {from: beveryBrand1Account, gas: 500000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printTxData("registerProducts1Tx", registerProducts1Tx);
-printTxData("registerProducts2Tx", registerProducts2Tx);
-printBalances();
-failIfTxStatusError(registerProducts1Tx, registerProductsMessage + " - Bevery Brand 1 Product A");
-failIfTxStatusError(registerProducts2Tx, registerProductsMessage + " - Bevery Brand 1 Product B");
-printRegistryContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var permissionMarkersMessage = "Permission Marker For Brands";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + permissionMarkersMessage);
-var permissionMarkers1Tx = registry.permissionMarker(beveryMarker1Account, true, {from: beveryBrand1Account, gas: 500000, gasPrice: defaultGasPrice});
-var permissionMarkers2Tx = registry.permissionMarker(beveryMarker2Account, true, {from: beveryBrand1Account, gas: 500000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printTxData("permissionMarkers1Tx", permissionMarkers1Tx);
-printTxData("permissionMarkers2Tx", permissionMarkers2Tx);
-printBalances();
-failIfTxStatusError(permissionMarkers1Tx, permissionMarkersMessage + " - Permission Bevery Marker 1");
-failIfTxStatusError(permissionMarkers2Tx, permissionMarkersMessage + " - Permission Bevery Marker 2");
-printRegistryContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var markItemsMessage = "Mark Items";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + markItemsMessage);
-var markItems1Tx = registry.mark(beveryBrand1ProductAAccount, registry.addressHash(beveryBrand1ProductAItem1Account), {from: beveryMarker1Account, gas: 500000, gasPrice: defaultGasPrice});
-var markItems2Tx = registry.mark(beveryBrand1ProductBAccount, registry.addressHash(beveryBrand1ProductBItem2Account), {from: beveryMarker2Account, gas: 500000, gasPrice: defaultGasPrice});
-while (txpool.status.pending > 0) {
-}
-printTxData("markItems1Tx", markItems1Tx);
-printTxData("markItems2Tx", markItems2Tx);
-printBalances();
-failIfTxStatusError(markItems1Tx, markItemsMessage + " - Mark Bevery Brand 1 Product A Item 1");
-failIfTxStatusError(markItems2Tx, markItemsMessage + " - Mark Bevery Brand 1 Product A Item 2");
-printRegistryContractDetails();
-console.log("RESULT: ");
-
-var result1 = registry.check(beveryBrand1ProductAItem1Account);
-console.log("RESULT: Checking Bevery Brand 1 Product A Item 1: " + beveryBrand1ProductAItem1Account + " productAccount=" + result1[0] + " brandAccount=" + result1[1] + " appAccount=" + result1[2]);
-var product1 = registry.products(result1[0]);
-console.log("RESULT:   productDetails: " + JSON.stringify(product1));
-var result2 = registry.check(beveryBrand1ProductBItem2Account);
-console.log("RESULT: Checking Bevery Brand 1 Product A Item 2: " + beveryBrand1ProductBItem2Account + " productAccount=" + result2[0] + " brandAccount=" + result2[1] + " appAccount=" + result2[2]);
-var product2 = registry.products(result2[0]);
-console.log("RESULT:   productDetails: " + JSON.stringify(product2));
-var result3 = registry.check(account3);
-console.log("RESULT: Checking Invalid Item: " + account3 + " productAccount=" + result3[0] + " brandAccount=" + result3[2] + " appAccount=" + result3[2]);
-
 
 EOF
 grep "DATA: " $TEST1OUTPUT | sed "s/DATA: //" > $DEPLOYMENTDATA
